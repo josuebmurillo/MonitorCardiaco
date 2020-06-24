@@ -8,15 +8,22 @@ class Persona
         Persona();
         virtual ~Persona();
 
-        float estarEnfermo();
-        float estarSano();
-        float estarMuerto();
+        void estarEnfermo();
+        void estarSano();
+        void estarMuerto();
+        void casoExtremoSuperior();
+        void casoExtremoinferior();
+
+        float getPulso (float tiempo);
+        float getTemperatura();
 
     protected:
 
     private:
         float temperatura;
+        float indiceTemp;
         float pulso;
+        float indicePulso;
 };
 
 #endif // PERSONA_H
