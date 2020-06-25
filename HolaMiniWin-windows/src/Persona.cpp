@@ -16,7 +16,7 @@ Persona::~Persona()
 void Persona::estarSano()
 {
     indiceTemp = 1;
-    indicePulso = 1;
+    indicePulso = 3;
 }
 
 void Persona::estarEnfermo()
@@ -91,7 +91,7 @@ float Persona::getPulso(float tiempo)
     {
         res = -x + 70;
     }
-    else if (70<= x)
+    else if (70<= x && x < 100)
     {
         res = 0;
     }
