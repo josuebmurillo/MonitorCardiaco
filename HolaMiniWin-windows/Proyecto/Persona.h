@@ -22,6 +22,14 @@ class Persona
         float getPulso (float tiempo);
         float getTemperatura();
 
+        bool umbral(float valor, int tipo)
+        {
+            asm(
+                "mov al, valor"
+            );
+            
+        }
+
         double ramdonTemperatura(int,int);
 
         float obtenerMinimo( vector<float> vectorDatos);

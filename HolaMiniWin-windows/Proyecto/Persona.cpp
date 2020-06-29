@@ -1,20 +1,18 @@
 #include "Persona.h"
 #include <math.h>
 #include <vector>
-#include<algorithm>
+#include <algorithm>
 #include "miniwin.h"
+#include <numeric>
 
 using namespace miniwin;
 
 Persona::Persona()
 {
-    temperatura = 37;//ctor
+    temperatura = 37; //ctor
     indiceTemp = 0;
     pulso = 60;
     indicePulso = 1;
-    _asm{
-
-    }
 }
 
 Persona::~Persona()
@@ -22,13 +20,15 @@ Persona::~Persona()
     //dtor
 }
 
+
+
 void Persona::estarSano()
 {
-    if(temperatura > 37)
+    if (temperatura > 37)
     {
         temperatura = temperatura - 0.01;
     }
-    else if(temperatura < 37)
+    else if (temperatura < 37)
     {
         temperatura = temperatura + 0.01;
     }
@@ -37,11 +37,11 @@ void Persona::estarSano()
 
 void Persona::estarEnfermo()
 {
-    if(temperatura > 39)
+    if (temperatura > 39)
     {
         temperatura = temperatura - 0.01;
     }
-    else if(temperatura < 39)
+    else if (temperatura < 39)
     {
         temperatura = temperatura + 0.01;
     }
@@ -50,11 +50,11 @@ void Persona::estarEnfermo()
 
 void Persona::estarMuerto()
 {
-    if(temperatura > 33)
+    if (temperatura > 33)
     {
         temperatura = temperatura - 0.01;
     }
-    else if(temperatura < 33)
+    else if (temperatura < 33)
     {
         temperatura = temperatura + 0.01;
     }
@@ -75,7 +75,7 @@ void Persona::casoExtremoinferior()
 
 float Persona::getPulso(float tiempo)
 {
-    float x =float((int(tiempo*indicePulso))%100);
+  float x =float((int(tiempo*indicePulso))%100);
     float res = 0;
     if(0<= x && x<10)
     {
@@ -128,61 +128,58 @@ float Persona::getPulso(float tiempo)
     return -res;
 }
 
-
-
 float Persona::getTemperatura()
 {
     float x = temperatura + indiceTemp;
     return x;
 }
 
-float Persona::obtenerMinimo(vector<float> vectorDatos){
+float Persona::obtenerMinimo(vector<float> vectorDatos)
+{
 
     return *min_element(vectorDatos.begin(), vectorDatos.end());
-
-
 }
 
-float Persona::obtenerMaximo(vector<float> vectorDatos){
+float Persona::obtenerMaximo(vector<float> vectorDatos)
+{
 
     return *max_element(vectorDatos.begin(), vectorDatos.end());
-
 }
-float Persona::obtenerPromedio(vector<float> vectorDatos2, bool bandera){
+float Persona::obtenerPromedio(vector<float> vectorDatos2, bool bandera)
+{
     float sumatoriaPulsos = accumulate(vectorDatos2.begin(), vectorDatos2.end(), 0);
-    float promedio =0;
-    if (bandera) {//promedio temperatura
-            promedio = sumatoriaPulsos/vectorDatos2.size();// la division se hace asi porque suponemos que el vector de datos contiene todas la pulsaciones en el rango del intervalo dado
-
-    } else{//proedio pulsaciones
-        promedio = sumatoriaPulsos/30;// la division se hace asi porque suponemos que el vector de datos contiene todas la pulsaciones en el rango del intervalo dado
+    float promedio = 0;
+    if (bandera)
+    {                                                     //promedio temperatura
+        promedio = sumatoriaPulsos / vectorDatos2.size(); // la division se hace asi porque suponemos que el vector de datos contiene todas la pulsaciones en el rango del intervalo dado
+    }
+    else
+    {                                    //proedio pulsaciones
+        promedio = sumatoriaPulsos / 30; // la division se hace asi porque suponemos que el vector de datos contiene todas la pulsaciones en el rango del intervalo dado
     }
     return promedio;
 }
 
 double Persona::ramdonTemperatura(int fMin, int fMax)
 {
-    srand (time(NULL));
+    srand(time(NULL));
     double f = (double)rand() / RAND_MAX;
     return fMin + f * (fMax - fMin);
 }
-void Persona::tablaPromedios(vector<float> vectorDatosPulsaciones,vector<float> vectorDatosTemperaturas ){
-    float pulsacionMinima= obtenerMinimo(vectorDatosPulsaciones);
-    float pulsacionMaxima= obtenerMaximo(vectorDatosPulsaciones);
-    float temperaturaMaxima= obtenerMaximo(vectorDatosTemperaturas);
-    float temperaturaMinima= obtenerMinimo(vectorDatosTemperaturas);
-    float promedioPulsaciones= obtenerPromedio(vectorDatosPulsaciones, false);
-    float promedioTemperaturas= obtenerPromedio(vectorDatosTemperaturas, true);
+void Persona::tablaPromedios(vector<float> vectorDatosPulsaciones, vector<float> vectorDatosTemperaturas)
+{
+    float pulsacionMinima = obtenerMinimo(vectorDatosPulsaciones);
+    float pulsacionMaxima = obtenerMaximo(vectorDatosPulsaciones);
+    float temperaturaMaxima = obtenerMaximo(vectorDatosTemperaturas);
+    float temperaturaMinima = obtenerMinimo(vectorDatosTemperaturas);
+    float promedioPulsaciones = obtenerPromedio(vectorDatosPulsaciones, false);
+    float promedioTemperaturas = obtenerPromedio(vectorDatosTemperaturas, true);
 
     vredimensiona(1000, 600);
     texto(0, 0, "Pulsacion minima ->" + to_string(pulsacionMinima));
     texto(0, 20, "Pulsacion maxima ->" + to_string(pulsacionMaxima));
     texto(0, 40, "Temperatura Maxima-> " + to_string(temperaturaMaxima));
-    texto(0, 60, "Temperatura Minima-> "+to_string(temperaturaMinima));
+    texto(0, 60, "Temperatura Minima-> " + to_string(temperaturaMinima));
     texto(0, 80, "Promedio Pulsaciones->" + to_string(promedioPulsaciones));
     texto(0, 100, "Promedio Temperaturas->" + to_string(promedioTemperaturas));
-
-
-
 }
-

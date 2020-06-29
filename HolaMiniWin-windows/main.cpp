@@ -1,7 +1,9 @@
 #include "miniwin.h"
+#include "windows.h"
 #include <time.h>
 #include <Persona.h>
 #include <vector>
+#include <stdlib.h>
 //#include <string>
 using namespace miniwin;
 using namespace std;
@@ -9,20 +11,15 @@ using namespace std;
 int main()
 {
     Persona per;
-    vector<float> registro;
-    registro.resize(1000);
-
-
-    for (int n = 0; n < 0; n++)
-        registro[n] = 0;
+    vector<float> ultimosPulso;
+    vector<float> ultimosTemp;
+    for(int o = 0; o < 1000; o++)
+        ultimosPulso.push_back(0);
+    for(int o = 0; o < 1000; o++)
+        ultimosTemp.push_back(0);
 
     per.estarSano();
     vredimensiona(1000, 600);
-    //rectangulo(100, 100, 300, 200);
-    texto(0,10,"Tempaetura:");
-    color(ROJO);
-    linea(0, 300, 1000, 300);
-    refresca();
 
     int counter = 0;
     //while(true)
@@ -30,27 +27,71 @@ int main()
     int ultimo = 0;
     int teclas = 0;
     int i = 0;
+
     while(teclas != int('Q'))
     {
-        int pue = int(per.getPulso(float(i%1000)));
+        borra();
+        color(BLANCO);
+        float temp = per.getTemperatura();
+
+        for(int n = 0; n < 999; n++)
+            ultimosTemp[n] = ultimosTemp[n+1];
+        ultimosTemp[999] = temp;
+
+
+        texto(0,10,"Temperatura:");
+        texto(100,10,to_string(temp));
+        color(ROJO);
+        linea(0, 300, 1000, 300);
+
+        float pue = per.getPulso(float(i%1000));
         color(VERDE);
-        linea((i)-1, 300+(ultimo),(i),300+(pue));
+        for(int n = 0; n < 999; n++)
+            ultimosPulso[n] = ultimosPulso[n+1];
+        ultimosPulso[999] = pue;
+        for(int n = 0; n < 999; n++)
+            linea(n, 300+(ultimosPulso[n]),(n+1),300+(ultimosPulso[n+1]));
         refresca();
-        espera(30);
+        espera(1);
         ultimo = pue;
         i++;
-        if(i == 999)
+        if(i == 1000)
         {
-            i = 0;
-            borra();
-            texto(0,10,"Tempaetura:");
-            color(ROJO);
-            linea(0, 300, 1000, 300);
-            refresca();
-        }
-        teclas = tecla();
-    }
 
+            borra();
+            i = 0;
+        }
+
+        teclas = tecla();
+
+        if(teclas == '1')
+            per.estarEnfermo();
+        if(teclas == '2')
+            per.estarSano();
+        if(teclas == '3')
+            per.estarMuerto();
+        if(teclas == '4')
+            per.casoExtremoSuperior();
+        if(teclas == '5')
+            per.casoExtremoinferior();
+        if(teclas == int('D'))  //Menú para mostrar datos anteriores (se activa con d, se devuelve con F)
+            {
+                borra();
+
+                while(teclas != int('F'))
+                {
+                    per.tablaPromedios(ultimosPulso, ultimosTemp);
+
+                    teclas = tecla();
+                    espera(10);
+                    refresca();
+                }
+                color(ROJO);
+                linea(0, 300, 1000, 300);
+
+            }
+    }
+    vcierra();
 
 
 
