@@ -10,13 +10,14 @@ using namespace std;
 
 int main()
 {
+
     Persona per;
-    vector<float> ultimosPulso;
-    vector<float> ultimosTemp;
+    float ultimosPulso [1000];
+    float ultimosTemp [1000];
     for(int o = 0; o < 1000; o++)
-        ultimosPulso.push_back(0);
+        ultimosPulso[o] = 0;
     for(int o = 0; o < 1000; o++)
-        ultimosTemp.push_back(0);
+        ultimosTemp[o] = 0;
 
     per.estarSano();
     vredimensiona(1000, 600);
@@ -27,6 +28,9 @@ int main()
     int ultimo = 0;
     int teclas = 0;
     int i = 0;
+    asm (
+         "movl al, ultimo"
+         );
 
     while(teclas != int('Q'))
     {
