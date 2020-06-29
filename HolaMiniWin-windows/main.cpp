@@ -28,9 +28,6 @@ int main()
     int ultimo = 0;
     int teclas = 0;
     int i = 0;
-    asm (
-         "movl al, ultimo"
-         );
 
     while(teclas != int('Q'))
     {

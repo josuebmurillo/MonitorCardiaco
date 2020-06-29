@@ -4,6 +4,7 @@
 #include<algorithm>
 #include "miniwin.h"
 #include <numeric>
+#include "string.h"
 #include <string>
 
 using namespace miniwin;
@@ -115,18 +116,62 @@ float Persona::getTemperatura()
     return x;
 }
 
-float Persona::obtenerMinimo(float vectorDatos [])
-{
-    float res = vectorDatos[0];
-    for (int i=0; i<1000; i++)
-    {
-        if (vectorDatos[i]< res)
-        {
-            res = vectorDatos[i];
-        }
-    }
-        return res;
-}
+//float Persona::obtenerMinimo(float vectorDatos [])
+//{
+//    float res = vectorDatos[0];
+//    for (int i=0; i<1000; i++)
+//    {
+//        if (vectorDatos[i]< res)
+//        {
+//            res = vectorDatos[i];
+//        }
+//    }
+//        return res;
+//}
+
+asm(
+    "_obtenerMinimo:;"
+    "push    rbp;"
+       "mov     rbp, rsp;"
+        "mov     QWORD PTR [rbp-24], rdi;"
+        "mov     rax, QWORD PTR [rbp-24];"
+        "movss   xmm0, DWORD PTR [rax];"
+        "movss   DWORD PTR [rbp-4], xmm0;"
+        "mov     DWORD PTR [rbp-8], 0;"
+".L5:;"
+      "  cmp     DWORD PTR [rbp-8], 998;"
+        "jg      .L2;"
+        "mov     eax, DWORD PTR [rbp-8];"
+        "cdqe;"
+        "lea     rdx, [0+rax*4];"
+        "mov     rax, QWORD PTR [rbp-24];"
+        "add     rax, rdx;"
+                "movss   xmm0, DWORD PTR [rax];"
+        "mov     eax, DWORD PTR [rbp-8];"
+        "cdqe;"
+        "add     rax, 1;"
+        "lea     rdx, [0+rax*4];"
+        "mov     rax, QWORD PTR [rbp-24];"
+        "add     rax, rdx;"
+        "movss   xmm1, DWORD PTR [rax];"
+        "comiss  xmm0, xmm1;"
+        "jbe     .L3;"
+        "mov     eax, DWORD PTR [rbp-8];"
+        "cdqe;"
+        "add     rax, 1;"
+        "lea     rdx, [0+rax*4];"
+        "mov     rax, QWORD PTR [rbp-24];"
+        "add     rax, rdx;"
+        "movss   xmm0, DWORD PTR [rax];"
+        "movss   DWORD PTR [rbp-4], xmm0;"
+".L3:;"
+        "add     DWORD PTR [rbp-8], 1;"
+        "jmp     .L5;"
+".L2:;"
+        "movss   xmm0, DWORD PTR [rbp-4];"
+        "pop     rbp;"
+        "ret"
+    );
 
     float Persona::obtenerMaximo(float vectorDatos [])
     {
