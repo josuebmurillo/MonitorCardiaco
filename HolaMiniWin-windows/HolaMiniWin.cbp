@@ -40,10 +40,12 @@
 			<Add library="kernel32" />
 		</Linker>
 		<Unit filename="include/Persona.h" />
+		<Unit filename="include/Sensor.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="miniwin.cpp" />
 		<Unit filename="miniwin.h" />
 		<Unit filename="src/Persona.cpp" />
+		<Unit filename="src/Sensor.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

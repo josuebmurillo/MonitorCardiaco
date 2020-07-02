@@ -22,21 +22,13 @@ class Persona
         float getPulso (float tiempo);
         float getTemperatura();
 
-        bool umbral(float valor, int tipo)
-        {
-            asm(
-                "mov al, valor"
-            );
-            
-        }
-
         double ramdonTemperatura(int,int);
 
-        float obtenerMinimo( vector<float> vectorDatos);
-        float obtenerMaximo( vector<float> vectorDatos);//para que reciba los 1000 numeros que representan los 30 segundos
-        float obtenerPromedio(vector<float> vectorDatos, bool bandera);
+        float obtenerMinimo( float vectorDatos[]);
+        float obtenerMaximo( float vectorDatos[]);//para que reciba los 1000 numeros que representan los 30 segundos
+        float obtenerPromedio(float vectorDatos[], bool bandera);
 
-        void tablaPromedios(vector<float>vectorDatosPul, vector<float> vectorDatosTem);
+        void tablaPromedios(float vectorDatosPul[], float vectorDatosTem []);
 
 
     protected:

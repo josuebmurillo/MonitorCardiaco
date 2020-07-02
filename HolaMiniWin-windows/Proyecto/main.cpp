@@ -1,99 +1,70 @@
-
+#include "miniwin.h"
 #include "windows.h"
 #include <time.h>
 #include <Persona.h>
-#include <Sensor.h>
 #include <vector>
 #include <stdlib.h>
-
-//esta es una libreria usada para manejar la interfaz grafica
-#include "miniwin.h"
-
-
-
 //#include <string>
 using namespace miniwin;
 using namespace std;
 
 int main()
 {
-    //se instancian los objetos persona y sensor
-    //persona da los signos vitales y el sensor los recibe
+
     Persona per;
-    Sensor sen;
-
-
-    //estos dos arreglos guardan los datos por cada 30milisegundos
     float ultimosPulso [1000];
     float ultimosTemp [1000];
-
-    //por defecto los arreglos se inician con datos = 0
     for(int o = 0; o < 1000; o++)
         ultimosPulso[o] = 0;
     for(int o = 0; o < 1000; o++)
         ultimosTemp[o] = 0;
 
-    per.estarSano(); //la persona empieza como sana
-
-    vredimensiona(1000, 600);//crea la ventana
+    per.estarSano();
+    vredimensiona(1000, 600);
 
     int counter = 0;
+    //while(true)
+    //{
     int ultimo = 0;
-    int teclas = 0; //almacena la tecla presionada por el usuario
-    int i = 0; //equivalente al tiempo
+    int teclas = 0;
+    int i = 0;
 
     while(teclas != int('Q'))
     {
         borra();
-
-
         color(BLANCO);
         float temp = per.getTemperatura();
 
-        //guarda los datos en forma de last in-last out, borra el ultimo dato ingresado
         for(int n = 0; n < 999; n++)
             ultimosTemp[n] = ultimosTemp[n+1];
         ultimosTemp[999] = temp;
 
-        //imprime la temperatura actual
+
         texto(0,10,"Temperatura:");
         texto(100,10,to_string(temp));
-
-
-        //imprime la linea roja de guia
         color(ROJO);
         linea(0, 300, 1000, 300);
 
-
-
-
-        //guarda los datos en forma de last in-last out, borra el ultimo dato ingresado
-        float pue = per.getPulso(float(i));
+        float pue = per.getPulso(float(i%1000));
+        color(VERDE);
         for(int n = 0; n < 999; n++)
             ultimosPulso[n] = ultimosPulso[n+1];
         ultimosPulso[999] = pue;
-
-        //imprime el PPM actual
-        //imprime la temperatura actual
-        color(BLANCO);
-        texto(0,30,"PPM(pulsos por minuto):");
-        texto(200,30,to_string(sen.obtenerPromedio(ultimosPulso, false)));
-
-        color(VERDE);
-        //grafica el latido del corazon
         for(int n = 0; n < 999; n++)
             linea(n, 300+(ultimosPulso[n]),(n+1),300+(ultimosPulso[n+1]));
         refresca();
         espera(1);
         ultimo = pue;
         i++;
+        if(i == 1000)
+        {
 
-        sen.sonarAlarma(ultimosPulso, ultimosTemp);//revisa los umbrales y suena si se rompen
+            borra();
+            i = 0;
+        }
 
-        teclas = tecla();//lee una tecla
+        teclas = tecla();
 
-
-        //opciones de usuario
         if(teclas == '1')
             per.estarEnfermo();
         if(teclas == '2')
@@ -110,8 +81,8 @@ int main()
 
                 while(teclas != int('F'))
                 {
-                    //muestra la tabla de resumen de datos
-                    sen.tablaPromedios(ultimosPulso, ultimosTemp);
+                    per.tablaPromedios(ultimosPulso, ultimosTemp);
+
                     teclas = tecla();
                     espera(10);
                     refresca();
@@ -121,7 +92,7 @@ int main()
 
             }
     }
-    vcierra();//en caso de presionar 'Q', cierra la aplicacion
+    vcierra();
 
 
 

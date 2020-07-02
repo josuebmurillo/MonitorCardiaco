@@ -1,15 +1,11 @@
 #ifndef PERSONA_H
 #define PERSONA_H
-#include<vector>
-#include<time.h>
-#include<string>
 
-
-using namespace std;
 
 class Persona
 {
     public:
+
         Persona();
         virtual ~Persona();
 
@@ -22,22 +18,14 @@ class Persona
         float getPulso (float tiempo);
         float getTemperatura();
 
-        double ramdonTemperatura(int,int);
-
-        float obtenerMinimo( float vectorDatos[]);
-        float obtenerMaximo( float vectorDatos[]);//para que reciba los 1000 numeros que representan los 30 segundos
-        float obtenerPromedio(float vectorDatos[], bool bandera);
-
-        void tablaPromedios(float vectorDatosPul[], float vectorDatosTem []);
-
-
-    protected:
 
     private:
-        float temperatura;
-        float indiceTemp;
+        float temperatura; //temperatura del paciente
+        float indiceTemp; //indice de incremento y decremento de la temperatura
         float pulso;
-        float indicePulso;
+        float indicePulso;//define que tan rapido o lento late el corazon
+
 };
+
 
 #endif // PERSONA_H
